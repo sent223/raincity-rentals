@@ -1,35 +1,32 @@
-# raincity-rentals
-Seattle's car rental marketplace. Compare vehicles from multiple local rental companies and book from the pickup location nearest to you, from Sea-Tac Airport to Capitol Hill.
-Status: In development (Week 1 of 5)
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
- ## Problem
-Renting a car in Seattle means jumping between several company sites to
-compare prices and pickup locations (Sea-Tac Airport, Downtown, Capitol Hill,
-Bellevue). This project brings them together on one map-based platform.
-
-## Planned features
-- [ ] Vehicle search with filters (type, price, seats, EV/AWD)
-- [ ] Interactive map of pickup locations
-- [ ] "Nearest location" using geolocation
-- [ ] Booking flow with availability checking and price calculation
-- [ ] User accounts and "My bookings"
-- [ ] Company dashboard (manage fleet and bookings)
-
-## Tech stack
-Next.js · TypeScript · Tailwind CSS · PostgreSQL · Prisma · Leaflet ·
-Auth.js · GitHub Actions · Vercel
-
-## Roadmap
-| Week | Focus |
-|------|-------|
-| 1 | Planning and foundation |
-| 2 | Data, API and search |
-| 3 | Map and booking |
-| 4 | Accounts and company dashboard |
-| 5 | Polish, tests, deployment |
 
 ## Getting started
-_Coming in Week 1, Day 5._
 
-## License
-MIT
+Requirements: Node.js 20.9+ and a PostgreSQL database (for example Neon).
+
+```bash
+git clone https://github.com/SENT223/raincity-rentals.git
+cd raincity-rentals
+npm install
+cp .env.example .env      # then add your DATABASE_URL
+npx prisma generate
+npm run dev
+```
+
+Open http://localhost:3000.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
