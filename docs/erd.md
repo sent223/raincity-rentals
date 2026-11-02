@@ -119,3 +119,7 @@ BOOKING {
 - One pickup location per booking (no one-way drop-offs)
 - No payments table (Stripe is a stretch goal)
 - No reviews table
+
+## Implementation
+The schema lives in `prisma/schema.prisma`. Tables use lowercase plural names
+(`users`, `vehicles`, etc.) and enums are defined as database enums.
