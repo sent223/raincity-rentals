@@ -6,3 +6,135 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Role {
+  RENTER
+  COMPANY_ADMIN
+  PLATFORM_ADMIN
+}
+
+enum VehicleType {
+  ECONOMY
+  COMPACT
+  SEDAN
+  SUV
+  TRUCK
+  VAN
+  LUXURY
+  EV
+}
+
+enum Transmission {
+  AUTOMATIC
+  MANUAL
+}
+
+enum FuelType {
+  GAS
+  HYBRID
+  ELECTRIC
+}
+
+enum BookingStatus {
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model Company {
+  id           Int        @id @default(autoincrement())
+  name         String
+  slug         String     @unique
+  description  String?
+  logoUrl      String?
+  contactEmail String?
+  createdAt    DateTime   @default(now())
+  locations    Location[]
+  vehicles     Vehicle[]
+  admins       User[]
+
+  @@map("companies")
+}
+
+model Location {
+  id        Int       @id @default(autoincrement())
+  companyId Int
+  company   Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name      String
+  address   String
+  city      String    @default("Seattle")
+  state     String    @default("WA")
+  zip       String
+  latitude  Float
+  longitude Float
+  isAirport Boolean   @default(false)
+  vehicles  Vehicle[]
+  bookings  Booking[]
+
+  @@index([companyId])
+  @@map("locations")
+}
+
+model Vehicle {
+  id             Int          @id @default(autoincrement())
+  companyId      Int
+  company        Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  locationId     Int
+  location       Location     @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  make           String
+  model          String
+  year           Int
+  type           VehicleType
+  seats          Int
+  transmission   Transmission
+  fuelType       FuelType
+  hasAwd         Boolean      @default(false)
+  hasRoofRack    Boolean      @default(false)
+  dailyRateCents Int
+  imageUrl       String?
+  isActive       Boolean      @default(true)
+  bookings       Booking[]
+
+  @@index([companyId])
+  @@index([locationId])
+  @@index([type])
+  @@map("vehicles")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  companyId    Int?
+  company      Company?  @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(RENTER)
+  createdAt    DateTime  @default(now())
+  bookings     Booking[]
+
+  @@map("users")
+}
+
+model Booking {
+  id               Int           @id @default(autoincrement())
+  reference        String        @unique
+  userId           Int
+  user             User          @relation(fields: [userId], references: [id])
+  vehicleId        Int
+  vehicle          Vehicle       @relation(fields: [vehicleId], references: [id])
+  pickupLocationId Int
+  pickupLocation   Location      @relation(fields: [pickupLocationId], references: [id])
+  startAt          DateTime
+  endAt            DateTime
+  status           BookingStatus @default(CONFIRMED)
+  dailyRateCents   Int
+  subtotalCents    Int
+  taxCents         Int
+  feesCents        Int
+  totalCents       Int
+  createdAt        DateTime      @default(now())
+
+  @@index([vehicleId, startAt, endAt])
+  @@index([userId])
+  @@map("bookings")
+}
