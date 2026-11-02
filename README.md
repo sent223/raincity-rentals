@@ -11,6 +11,8 @@ cd raincity-rentals
 npm install
 cp .env.example .env      # then add your DATABASE_URL
 npx prisma generate
+npx prisma migrate deploy #create the tables
+npx prisma db seed        #load demo companies, locations and vehicles
 npm run dev
 ```
 
