@@ -11,6 +11,9 @@ export default function Navbar() {
           <Link href="/vehicles" className="hover:underline">
             Browse
           </Link>
+          <Link href="/locations" className="hover:underline">
+            Locations
+          </Link>
         </nav>
       </div>
     </header>
