@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Prisma } from "../generated/prisma/client";
 import { formatCents, titleCase, typeLabel } from "../lib/format";
 
@@ -42,9 +43,12 @@ export default function VehicleCard({ vehicle }: { vehicle: VehicleWithRelations
             {formatCents(v.dailyRateCents)}
             <span className="text-sm font-normal text-[#5B6B6F]"> / day</span>
           </span>
-          <span className="rounded-lg bg-[#2F6F8F] px-4 py-2 text-sm font-bold text-white">
-            View
-          </span>
+          <Link
+            href={`/vehicles/${v.id}`}
+            className="rounded-lg bg-[#2F6F8F] px-4 py-2 text-sm font-bold text-white"
+          >
+            View Details
+          </Link>
         </div>
       </div>
     </article>
