@@ -1,14 +1,25 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import L from "leaflet";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import {
+  CircleMarker,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  Tooltip,
+  useMap,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import type { Coords } from "../lib/geo";
 import type { LocationPin } from "../lib/types";
 
 type Props = {
   locations: LocationPin[];
   selectedId: number | null;
+  userPosition: Coords | null;
   onSelect: (id: number) => void;
 };
 
@@ -33,7 +44,12 @@ function FlyToSelected({ location }: { location?: LocationPin }) {
   return null;
 }
 
-export default function LocationsMap({ locations, selectedId, onSelect }: Props) {
+export default function LocationsMap({
+  locations,
+  selectedId,
+  userPosition,
+  onSelect,
+}: Props) {
   const selected = locations.find((loc) => loc.id === selectedId);
   const bounds = L.latLngBounds(
     locations.map((loc) => [loc.latitude, loc.longitude] as [number, number]),
@@ -51,6 +67,22 @@ export default function LocationsMap({ locations, selectedId, onSelect }: Props)
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <FlyToSelected location={selected} />
+      {userPosition && (
+        <CircleMarker
+          center={[userPosition.latitude, userPosition.longitude]}
+          radius={9}
+          pathOptions={{
+            color: "#FFFFFF",
+            weight: 3,
+            fillColor: "#1E2A2E",
+            fillOpacity: 1,
+          }}
+        >
+          <Tooltip direction="top" offset={[0, -8]}>
+            You are here
+          </Tooltip>
+        </CircleMarker>
+      )}
       {locations.map((loc) => (
         <Marker
           key={loc.id}
@@ -65,7 +97,9 @@ export default function LocationsMap({ locations, selectedId, onSelect }: Props)
             <br />
             {loc.address}, {loc.city}
             <br />
-            {loc.vehicleCount} vehicles available
+            <Link href={`/vehicles?location=${loc.id}`}>
+              View {loc.vehicleCount} vehicles
+            </Link>
           </Popup>
         </Marker>
       ))}
