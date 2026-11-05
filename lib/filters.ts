@@ -21,6 +21,7 @@ export type Filters = {
   seats?: number;
   transmission?: (typeof TRANSMISSIONS)[number];
   fuel?: (typeof FUEL_TYPES)[number];
+  location?: number;
   awd: boolean;
   rack: boolean;
 };
@@ -36,9 +37,12 @@ function pick<T extends string>(
   return allowed.find((item) => item === value);
 }
 
-function positiveInt(value: string | undefined): number | undefined {
+function positiveInt(
+  value: string | undefined,
+  max = 1_000_000,
+): number | undefined {
   const n = Number(value);
-  return value && Number.isInteger(n) && n > 0 ? n : undefined;
+  return value && Number.isInteger(n) && n > 0 && n <= max ? n : undefined;
 }
 
 export function parseFilters(params: SearchParams): Filters {
@@ -48,6 +52,7 @@ export function parseFilters(params: SearchParams): Filters {
     seats: positiveInt(first(params.seats)),
     transmission: pick(first(params.transmission), TRANSMISSIONS),
     fuel: pick(first(params.fuel), FUEL_TYPES),
+    location: positiveInt(first(params.location), 2_147_483_647),
     awd: first(params.awd) === "1",
     rack: first(params.rack) === "1",
   };
@@ -63,6 +68,7 @@ export function buildWhere(filters: Filters): Prisma.VehicleWhereInput {
     ...(filters.seats ? { seats: { gte: filters.seats } } : {}),
     ...(filters.transmission ? { transmission: filters.transmission } : {}),
     ...(filters.fuel ? { fuelType: filters.fuel } : {}),
+    ...(filters.location ? { locationId: filters.location } : {}),
     ...(filters.awd ? { hasAwd: true } : {}),
     ...(filters.rack ? { hasRoofRack: true } : {}),
   };

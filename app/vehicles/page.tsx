@@ -10,14 +10,33 @@ type PageProps = { searchParams: Promise<SearchParams> };
 
 async function VehiclesContent({ searchParams }: PageProps) {
   const filters = parseFilters(await searchParams);
-  const vehicles = await prisma.vehicle.findMany({
-    where: buildWhere(filters),
-    include: { company: true, location: true },
-    orderBy: { dailyRateCents: "asc" },
-  });
+  const [vehicles, pickup] = await Promise.all([
+    prisma.vehicle.findMany({
+      where: buildWhere(filters),
+      include: { company: true, location: true },
+      orderBy: { dailyRateCents: "asc" },
+    }),
+    filters.location
+      ? prisma.location.findUnique({
+          where: { id: filters.location },
+          include: { company: true },
+        })
+      : null,
+  ]);
 
   return (
     <>
+      {pickup && (
+        <p className="mb-4 flex flex-wrap items-center gap-3 rounded-lg bg-[#DCE7E2] px-4 py-3 text-sm">
+          <span>
+            Showing vehicles at <strong>{pickup.name}</strong> (
+            {pickup.company.name})
+          </span>
+          <Link href="/vehicles" className="text-[#2F6F8F] underline">
+            Show all locations
+          </Link>
+        </p>
+      )}
       <VehicleFilters filters={filters} />
       <p className="mt-6 text-[#5B6B6F]">
         {vehicles.length} {vehicles.length === 1 ? "vehicle" : "vehicles"}{" "}

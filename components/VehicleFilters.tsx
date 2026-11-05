@@ -18,7 +18,10 @@ export default function VehicleFilters({ filters }: { filters: Filters }) {
       action="/vehicles"
       className="rounded-xl border border-[#C9D1CF] bg-white p-5"
     >
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {filters.location ? (
+        <input type="hidden" name="location" value={filters.location} />
+      ) : null}
+      <div className=" grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <label className={labelClass}>
           Type
           <select
