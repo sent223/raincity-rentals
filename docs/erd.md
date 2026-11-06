@@ -119,6 +119,7 @@ BOOKING {
 - One pickup location per booking (no one-way drop-offs)
 - No payments table (Stripe is a stretch goal)
 - No reviews table
+- Times are entered and shown as Seattle local time and stored without time zone conversion
 
 ## Implementation
 The schema lives in `prisma/schema.prisma`. Tables use lowercase plural names
