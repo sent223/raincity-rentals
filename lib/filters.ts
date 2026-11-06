@@ -1,4 +1,6 @@
 import type { Prisma } from "../generated/prisma/client";
+import { availableDuring } from "./availability";
+import { parseDateRange, type DateRangeResult } from "./dates";
 
 export const VEHICLE_TYPES = [
   "ECONOMY",
@@ -22,11 +24,14 @@ export type Filters = {
   transmission?: (typeof TRANSMISSIONS)[number];
   fuel?: (typeof FUEL_TYPES)[number];
   location?: number;
+  startInput?: string;
+  endInput?: string;
+  range: DateRangeResult;
   awd: boolean;
   rack: boolean;
 };
 
-function first(value: string | string[] | undefined): string | undefined {
+export function first(value: string | string[] | undefined): string | undefined {
   return Array.isArray(value) ? value[0] : value;
 }
 
@@ -53,6 +58,9 @@ export function parseFilters(params: SearchParams): Filters {
     transmission: pick(first(params.transmission), TRANSMISSIONS),
     fuel: pick(first(params.fuel), FUEL_TYPES),
     location: positiveInt(first(params.location), 2_147_483_647),
+    startInput: first(params.start),
+    endInput: first(params.end),
+    range: parseDateRange(first(params.start), first(params.end)),
     awd: first(params.awd) === "1",
     rack: first(params.rack) === "1",
   };
@@ -69,6 +77,9 @@ export function buildWhere(filters: Filters): Prisma.VehicleWhereInput {
     ...(filters.transmission ? { transmission: filters.transmission } : {}),
     ...(filters.fuel ? { fuelType: filters.fuel } : {}),
     ...(filters.location ? { locationId: filters.location } : {}),
+    ...(filters.range.kind === "ok"
+      ? availableDuring(filters.range.start, filters.range.end)
+      : {}),
     ...(filters.awd ? { hasAwd: true } : {}),
     ...(filters.rack ? { hasRoofRack: true } : {}),
   };

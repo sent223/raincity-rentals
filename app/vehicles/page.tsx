@@ -3,6 +3,7 @@ import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import VehicleCard from "../../components/VehicleCard";
 import VehicleFilters from "../../components/VehicleFilters";
+import { formatDateTime, rentalDays } from "../../lib/dates";
 import { buildWhere, parseFilters, type SearchParams } from "../../lib/filters";
 import { prisma } from "../../lib/prisma";
 
@@ -10,6 +11,12 @@ type PageProps = { searchParams: Promise<SearchParams> };
 
 async function VehiclesContent({ searchParams }: PageProps) {
   const filters = parseFilters(await searchParams);
+  const range = filters.range;
+  const detailQuery =
+    range.kind === "ok"
+      ? `?${new URLSearchParams({ start: range.startInput, end: range.endInput }).toString()}`
+      : "";
+
   const [vehicles, pickup] = await Promise.all([
     prisma.vehicle.findMany({
       where: buildWhere(filters),
@@ -37,6 +44,14 @@ async function VehiclesContent({ searchParams }: PageProps) {
           </Link>
         </p>
       )}
+      {range.kind === "ok" && (
+        <p className="mb-4 rounded-lg bg-[#DCE7E2] px-4 py-3 text-sm">
+          Vehicles free from <strong>{formatDateTime(range.start)}</strong> to{" "}
+          <strong>{formatDateTime(range.end)}</strong> (
+          {rentalDays(range.start, range.end)}{" "}
+          {rentalDays(range.start, range.end) === 1 ? "day" : "days"})
+        </p>
+      )}
       <VehicleFilters filters={filters} />
       <p className="mt-6 text-[#5B6B6F]">
         {vehicles.length} {vehicles.length === 1 ? "vehicle" : "vehicles"}{" "}
@@ -55,7 +70,11 @@ async function VehiclesContent({ searchParams }: PageProps) {
       ) : (
         <div className="mt-4 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {vehicles.map((vehicle) => (
-            <VehicleCard key={vehicle.id} vehicle={vehicle} />
+            <VehicleCard
+              key={vehicle.id}
+              vehicle={vehicle}
+              detailQuery={detailQuery}
+            />
           ))}
         </div>
       )}
