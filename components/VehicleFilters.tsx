@@ -1,5 +1,6 @@
 import Form from "next/form";
 import Link from "next/link";
+import { todayInSeattle } from "../lib/dates";
 import {
   FUEL_TYPES,
   TRANSMISSIONS,
@@ -13,15 +14,49 @@ const fieldClass =
   "mt-1 w-full rounded-lg border border-[#C9D1CF] bg-white px-3 py-2 text-sm text-[#1E2A2E]";
 
 export default function VehicleFilters({ filters }: { filters: Filters }) {
+  const minDate = `${todayInSeattle()}T00:00`;
+
   return (
     <Form
       action="/vehicles"
       className="rounded-xl border border-[#C9D1CF] bg-white p-5"
     >
-            {filters.location ? (
+      {filters.location ? (
         <input type="hidden" name="location" value={filters.location} />
       ) : null}
-      <div className=" grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className={labelClass}>
+          Pick-up (Seattle time)
+          <input
+            type="datetime-local"
+            name="start"
+            min={minDate}
+            defaultValue={filters.startInput ?? ""}
+            className={fieldClass}
+          />
+        </label>
+        <label className={labelClass}>
+          Return (Seattle time)
+          <input
+            type="datetime-local"
+            name="end"
+            min={minDate}
+            defaultValue={filters.endInput ?? ""}
+            className={fieldClass}
+          />
+        </label>
+      </div>
+      {filters.range.kind === "error" && (
+        <p
+          role="alert"
+          className="mt-3 rounded-lg bg-[#FFF4D6] px-4 py-2 text-sm"
+        >
+          {filters.range.message}
+        </p>
+      )}
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <label className={labelClass}>
           Type
           <select

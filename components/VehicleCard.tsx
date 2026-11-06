@@ -6,7 +6,13 @@ type VehicleWithRelations = Prisma.VehicleGetPayload<{
   include: { company: true; location: true };
 }>;
 
-export default function VehicleCard({ vehicle }: { vehicle: VehicleWithRelations }) {
+export default function VehicleCard({
+  vehicle,
+  detailQuery = "",
+}: {
+  vehicle: VehicleWithRelations;
+  detailQuery?: string;
+}) {
   const v = vehicle;
   const features = [
     typeLabel(v.type),
@@ -44,10 +50,10 @@ export default function VehicleCard({ vehicle }: { vehicle: VehicleWithRelations
             <span className="text-sm font-normal text-[#5B6B6F]"> / day</span>
           </span>
           <Link
-            href={`/vehicles/${v.id}`}
+            href={`/vehicles/${v.id}${detailQuery}`}
             className="rounded-lg bg-[#2F6F8F] px-4 py-2 text-sm font-bold text-white"
           >
-            View Details
+            View
           </Link>
         </div>
       </div>

@@ -160,6 +160,54 @@ async function main() {
     ],
   });
 
+    // Demo renter and bookings, used to test availability
+  const renter = await prisma.user.upsert({
+    where: { email: "demo.renter@example.com" },
+    update: {},
+    create: {
+      name: "Demo Renter",
+      email: "demo.renter@example.com",
+      passwordHash: "demo-not-a-real-hash",
+      role: "RENTER",
+    },
+  });
+
+  const allVehicles = await prisma.vehicle.findMany();
+  const findVehicle = (make: string, model: string) => {
+    const found = allVehicles.find((v) => v.make === make && v.model === model);
+    if (!found) throw new Error(`Seed vehicle not found: ${make} ${model}`);
+    return found;
+  };
+
+  const demoBookings = [
+    { ref: "RCR-DEMO-001", make: "Toyota", model: "RAV4", start: "2026-12-05T10:00:00Z", end: "2026-12-08T10:00:00Z" },
+    { ref: "RCR-DEMO-002", make: "Subaru", model: "Outback", start: "2026-12-06T10:00:00Z", end: "2026-12-09T10:00:00Z" },
+    { ref: "RCR-DEMO-003", make: "Tesla", model: "Model 3", start: "2026-12-05T10:00:00Z", end: "2026-12-07T10:00:00Z" },
+  ];
+
+  for (const b of demoBookings) {
+    const vehicle = findVehicle(b.make, b.model);
+    const startAt = new Date(b.start);
+    const endAt = new Date(b.end);
+    const days = Math.ceil((endAt.getTime() - startAt.getTime()) / 86_400_000);
+    const subtotalCents = vehicle.dailyRateCents * days;
+    const taxCents = Math.round(subtotalCents * 0.1);
+    await prisma.booking.create({
+      data: {
+        reference: b.ref,
+        userId: renter.id,
+        vehicleId: vehicle.id,
+        pickupLocationId: vehicle.locationId,
+        startAt,
+        endAt,
+        dailyRateCents: vehicle.dailyRateCents,
+        subtotalCents,
+        taxCents,
+        feesCents: 0,
+        totalCents: subtotalCents + taxCents,
+      },
+    });
+  }
   const [companies, locations, vehicles] = await Promise.all([
     prisma.company.count(),
     prisma.location.count(),
