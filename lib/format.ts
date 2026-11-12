@@ -24,3 +24,10 @@ export function typeLabel(type: string): string {
 export function titleCase(value: string): string {
   return value.charAt(0) + value.slice(1).toLowerCase();
 }
+
+export function formatMoney(cents: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(cents / 100);
+}
