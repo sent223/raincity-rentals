@@ -74,6 +74,11 @@ async function VehiclesContent({ searchParams }: PageProps) {
               key={vehicle.id}
               vehicle={vehicle}
               detailQuery={detailQuery}
+              days={
+                range.kind === "ok"
+                ? rentalDays(range.start, range.end)
+                : undefined
+              }
             />
           ))}
         </div>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Prisma } from "../generated/prisma/client";
-import { formatCents, titleCase, typeLabel } from "../lib/format";
+import { formatCents, formatMoney, titleCase, typeLabel } from "../lib/format";
+import { calculatePrice } from "../lib/pricing";
 
 type VehicleWithRelations = Prisma.VehicleGetPayload<{
   include: { company: true; location: true };
@@ -9,9 +10,11 @@ type VehicleWithRelations = Prisma.VehicleGetPayload<{
 export default function VehicleCard({
   vehicle,
   detailQuery = "",
+  days,
 }: {
   vehicle: VehicleWithRelations;
   detailQuery?: string;
+  days?: number;
 }) {
   const v = vehicle;
   const features = [
@@ -22,6 +25,14 @@ export default function VehicleCard({
   ];
   if (v.hasAwd) features.push("AWD");
   if (v.hasRoofRack) features.push("Roof rack");
+
+  const price = days
+    ? calculatePrice({
+        dailyRateCents: v.dailyRateCents,
+        days,
+        isAirport: v.location.isAirport,
+      })
+    : null;
 
   return (
     <article className="flex flex-col overflow-hidden rounded-xl border border-[#C9D1CF] bg-white">
@@ -44,11 +55,19 @@ export default function VehicleCard({
             </li>
           ))}
         </ul>
-        <div className="mt-auto flex items-center justify-between pt-5">
-          <span className="text-2xl font-bold text-[#1F4D3A]">
-            {formatCents(v.dailyRateCents)}
-            <span className="text-sm font-normal text-[#5B6B6F]"> / day</span>
-          </span>
+        <div className="mt-auto flex items-end justify-between pt-5">
+          <div>
+            <span className="text-2xl font-bold text-[#1F4D3A]">
+              {formatCents(v.dailyRateCents)}
+              <span className="text-sm font-normal text-[#5B6B6F]"> / day</span>
+            </span>
+            {price && days ? (
+              <span className="block text-xs text-[#5B6B6F]">
+                {formatMoney(price.totalCents)} total for {days}{" "}
+                {days === 1 ? "day" : "days"}, with taxes and fees
+              </span>
+            ) : null}
+          </div>
           <Link
             href={`/vehicles/${v.id}${detailQuery}`}
             className="rounded-lg bg-[#2F6F8F] px-4 py-2 text-sm font-bold text-white"
