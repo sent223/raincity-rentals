@@ -3,6 +3,7 @@ import Form from "next/form";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "../../../components/Navbar";
+import PriceSummary from "../../../components/PriceSummary";
 import { isVehicleAvailable } from "../../../lib/availability";
 import {
   formatDateTime,
@@ -12,6 +13,7 @@ import {
 } from "../../../lib/dates";
 import { first, type SearchParams } from "../../../lib/filters";
 import { formatCents, titleCase, typeLabel } from "../../../lib/format";
+import { calculatePrice } from "../../../lib/pricing";
 import { prisma } from "../../../lib/prisma";
 
 type PageProps = {
@@ -39,6 +41,14 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
   const available =
     range.kind === "ok"
       ? await isVehicleAvailable(vehicleId, range.start, range.end)
+      : null;
+  const breakdown =
+    range.kind === "ok" && available === true
+      ? calculatePrice({
+          dailyRateCents: vehicle.dailyRateCents,
+          days: rentalDays(range.start, range.end),
+          isAirport: vehicle.location.isAirport,
+        })
       : null;
   const dateQuery =
     range.kind === "ok"
@@ -178,7 +188,7 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
           )}
           {range.kind === "none" && (
             <p className="mt-4 text-sm text-[#5B6B6F]">
-              Choose your dates to check availability.
+              Choose your dates to check availability and see the full price.
             </p>
           )}
           {range.kind === "ok" && available === true && (
@@ -187,9 +197,7 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
               className="mt-4 rounded-lg bg-[#DCE7E2] px-4 py-3 text-sm text-[#1F4D3A]"
             >
               <strong>Available</strong> from {formatDateTime(range.start)} to{" "}
-              {formatDateTime(range.end)} (
-              {rentalDays(range.start, range.end)}{" "}
-              {rentalDays(range.start, range.end) === 1 ? "day" : "days"})
+              {formatDateTime(range.end)}
             </p>
           )}
           {range.kind === "ok" && available === false && (
@@ -208,6 +216,8 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
               </Link>
             </div>
           )}
+
+          {breakdown && <PriceSummary breakdown={breakdown} />}
 
           <button
             type="button"
