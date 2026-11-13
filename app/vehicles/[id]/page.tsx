@@ -219,15 +219,24 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
 
           {breakdown && <PriceSummary breakdown={breakdown} />}
 
-          <button
-            type="button"
-            disabled
-            className="mt-6 w-full cursor-not-allowed rounded-lg bg-[#F5B700] px-4 py-3 font-bold text-[#1E2A2E] opacity-60"
-          >
-            Book now
-          </button>
+                    {breakdown ? (
+            <Link
+              href={`/vehicles/${v.id}/book${dateQuery}`}
+              className="mt-6 block w-full rounded-lg bg-[#F5B700] px-4 py-3 text-center font-bold text-[#1E2A2E]"
+            >
+              Book now
+            </Link>
+          ) : (
+            <button
+              type="button"
+              disabled
+              className="mt-6 w-full cursor-not-allowed rounded-lg bg-[#F5B700] px-4 py-3 font-bold text-[#1E2A2E] opacity-60"
+            >
+              Book now
+            </button>
+          )}
           <p className="mt-3 text-center text-xs text-[#5B6B6F]">
-            Booking opens soon. Free cancellation until 24 hours before pick-up.
+            Free cancellation until 24 hours before pick-up.
           </p>
         </aside>
       </div>

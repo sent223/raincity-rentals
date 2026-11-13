@@ -120,6 +120,8 @@ BOOKING {
 - No payments table (Stripe is a stretch goal)
 - No reviews table
 - Times are entered and shown as Seattle local time and stored without time zone conversion
+- Bookings are saved under a demo renter until sign-in is added (Week 4)
+- Booking confirmation pages are viewable by reference until accounts exist
 
 ## Implementation
 The schema lives in `prisma/schema.prisma`. Tables use lowercase plural names
