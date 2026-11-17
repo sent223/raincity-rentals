@@ -11,3 +11,4 @@ export type LocationPin = {
   isAirport: boolean;
   vehicleCount: number;
 };
+export type UserRole = "RENTER" | "COMPANY_ADMIN" | "PLATFORM_ADMIN";
