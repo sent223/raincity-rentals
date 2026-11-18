@@ -21,7 +21,6 @@ The server never trusts values from the browser. It re-parses the dates,
 re-reads the vehicle and recalculates the price before saving.
 
 ## Known limitations (v1)
-- Bookings are saved under a seeded demo renter until sign-in is added (Week 4)
-- Anyone with a booking reference can open its confirmation page until accounts exist
+- Booking requires an account, and a confirmation page is visible only to its owner
 - No payment step (Stripe is a stretch goal)
 - Cancellation is added with "My bookings" in Week 4
