@@ -27,3 +27,13 @@ Better Auth is a possible future improvement.
 - No rate limiting on login attempts
 - The sign-up form tells people when an email is already registered
 - The seeded demo renter has no usable password, so it cannot log in
+
+## Route protection
+Two layers protect booking pages:
+1. `proxy.ts` redirects logged-out visitors from `/vehicles/[id]/book`,
+   `/bookings/*` and `/company/*` to `/login?next=...`. After logging in they
+   return to the page they wanted.
+2. Server-side checks next to the data: pages call `requireUser()`, and the
+   booking action reads the session itself. The proxy alone is never trusted.
+
+A booking's confirmation page is only visible to the user who made it

@@ -13,6 +13,7 @@ import {
 import { first, type SearchParams } from "../../../../lib/filters";
 import { calculatePrice } from "../../../../lib/pricing";
 import { prisma } from "../../../../lib/prisma";
+import { requireUser } from "../../../../lib/session";
 import { createBooking } from "./actions";
 
 type PageProps = {
@@ -35,6 +36,12 @@ async function BookingReview({ params, searchParams }: PageProps) {
   if (!Number.isInteger(vehicleId) || vehicleId < 1 || vehicleId > 2147483647) {
     notFound();
   }
+    const user = await requireUser(
+    `/vehicles/${vehicleId}/book?${new URLSearchParams({
+      start: first(query.start) ?? "",
+      end: first(query.end) ?? "",
+    }).toString()}`,
+  );
 
   const vehicle = await prisma.vehicle.findFirst({
     where: { id: vehicleId, isActive: true },
@@ -120,8 +127,7 @@ async function BookingReview({ params, searchParams }: PageProps) {
             <input type="hidden" name="start" value={range.startInput} />
             <input type="hidden" name="end" value={range.endInput} />
             <p className="text-sm text-[#5B6B6F]">
-              Booking as <strong>Demo Renter</strong>. Sign-in arrives in a
-              later update.
+              Booking as <strong>{user.name}</strong> ({user.email})
             </p>
             <label className="mt-4 flex items-start gap-2 text-sm">
               <input type="checkbox" name="terms" required className="mt-1" />

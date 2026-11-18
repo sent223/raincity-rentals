@@ -5,13 +5,15 @@ import Navbar from "../../../components/Navbar";
 import { formatDateTime, rentalDays } from "../../../lib/dates";
 import { formatMoney } from "../../../lib/format";
 import { prisma } from "../../../lib/prisma";
+import { requireUser } from "../../../lib/session";
 
 type PageProps = { params: Promise<{ reference: string }> };
 
 async function BookingDetails({ params }: PageProps) {
   const { reference } = await params;
-  const booking = await prisma.booking.findUnique({
-    where: { reference: reference.toUpperCase() },
+  const user = await requireUser(`/bookings/${reference}`);
+  const booking = await prisma.booking.findFirst({
+    where: { reference: reference.toUpperCase(), userId: Number(user.id) } ,
     include: {
       vehicle: { include: { company: true } },
       pickupLocation: true,

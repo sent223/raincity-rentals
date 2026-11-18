@@ -2,13 +2,11 @@
 
 import { randomBytes } from "node:crypto";
 import { redirect } from "next/navigation";
+import { auth } from "../../../../auth";
 import { isVehicleAvailable } from "../../../../lib/availability";
 import { parseDateRange, rentalDays } from "../../../../lib/dates";
 import { calculatePrice } from "../../../../lib/pricing";
 import { prisma } from "../../../../lib/prisma";
-
-// Until sign-in exists (Week 4), bookings belong to the seeded demo renter.
-const DEMO_RENTER_EMAIL = "demo.renter@example.com";
 
 function bookPath(
   vehicleId: number,
@@ -30,6 +28,17 @@ export async function createBooking(formData: FormData) {
   if (!Number.isInteger(vehicleId) || vehicleId < 1 || vehicleId > 2147483647) {
     redirect("/vehicles");
   }
+
+  // Only signed-in users can book. The session is checked again here
+  // because the browser can never be trusted.
+  const session = await auth();
+  const userId = Number(session?.user?.id);
+  if (!Number.isInteger(userId) || userId < 1) {
+    redirect(
+      `/login?next=${encodeURIComponent(bookPath(vehicleId, start, end))}`,
+    );
+  }
+
   if (!agreed) redirect(bookPath(vehicleId, start, end, "terms"));
 
   const range = parseDateRange(start, end);
@@ -40,7 +49,7 @@ export async function createBooking(formData: FormData) {
       where: { id: vehicleId, isActive: true },
       include: { location: true },
     }),
-    prisma.user.findUnique({ where: { email: DEMO_RENTER_EMAIL } }),
+    prisma.user.findUnique({ where: { id: userId } }),
   ]);
   if (!vehicle || !renter) redirect(bookPath(vehicleId, start, end, "failed"));
 
