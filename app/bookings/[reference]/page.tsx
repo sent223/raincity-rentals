@@ -2,7 +2,9 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "../../../components/Navbar";
-import { formatDateTime, rentalDays } from "../../../lib/dates";
+import StatusBadge from "../../../components/StatusBadge";
+import { cancellationState, displayStatus } from "../../../lib/bookings";
+import { formatDateTime, nowInSeattle, rentalDays } from "../../../lib/dates";
 import { formatMoney } from "../../../lib/format";
 import { prisma } from "../../../lib/prisma";
 import { requireUser } from "../../../lib/session";
@@ -13,7 +15,7 @@ async function BookingDetails({ params }: PageProps) {
   const { reference } = await params;
   const user = await requireUser(`/bookings/${reference}`);
   const booking = await prisma.booking.findFirst({
-    where: { reference: reference.toUpperCase(), userId: Number(user.id) } ,
+    where: { reference: reference.toUpperCase(), userId: Number(user.id) },
     include: {
       vehicle: { include: { company: true } },
       pickupLocation: true,
@@ -21,9 +23,21 @@ async function BookingDetails({ params }: PageProps) {
   });
   if (!booking) notFound();
 
+  const now = nowInSeattle();
+  const status = displayStatus(booking, now);
+  const cancel = cancellationState(booking, now);
   const days = rentalDays(booking.startAt, booking.endAt);
   const v = booking.vehicle;
   const loc = booking.pickupLocation;
+
+  const headline =
+    status === "Cancelled"
+      ? "Booking cancelled"
+      : status === "Completed"
+        ? "Trip completed"
+        : status === "In progress"
+          ? "Trip in progress"
+          : "Booking confirmed";
 
   const rows: [string, string][] = [
     [
@@ -38,13 +52,30 @@ async function BookingDetails({ params }: PageProps) {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <div className="rounded-xl bg-[#DCE7E2] p-6 text-center">
-        <p className="text-4xl text-[#1F4D3A]">✓</p>
-        <h1 className="mt-2 text-3xl font-bold text-[#1F4D3A]">
-          Booking {booking.status === "CONFIRMED" ? "confirmed" : booking.status.toLowerCase()}
+      <Link href="/bookings" className="text-sm text-[#2F6F8F] underline">
+        ← My bookings
+      </Link>
+
+      <div
+        className={`mt-4 rounded-xl p-6 text-center ${
+          status === "Cancelled" ? "bg-[#FBE4E1]" : "bg-[#DCE7E2]"
+        }`}
+      >
+        {status !== "Cancelled" && (
+          <p className="text-4xl text-[#1F4D3A]">✓</p>
+        )}
+        <h1
+          className={`mt-2 text-3xl font-bold ${
+            status === "Cancelled" ? "text-[#7A1F14]" : "text-[#1F4D3A]"
+          }`}
+        >
+          {headline}
         </h1>
         <p className="mt-2 text-sm text-[#5B6B6F]">Your booking reference</p>
         <p className="text-2xl font-bold tracking-wider">{booking.reference}</p>
+        <div className="mt-3">
+          <StatusBadge status={status} />
+        </div>
       </div>
 
       <section className="mt-6 rounded-xl border border-[#C9D1CF] bg-white p-6">
@@ -86,6 +117,24 @@ async function BookingDetails({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      {cancel === "ok" && (
+        <p className="mt-4 text-center text-sm">
+          <Link
+            href={`/bookings/${booking.reference}/cancel`}
+            className="text-[#B3261E] underline"
+          >
+            Cancel this booking
+          </Link>{" "}
+          <span className="text-[#5B6B6F]">(free until 24 hours before pick-up)</span>
+        </p>
+      )}
+      {cancel === "too-late" && (
+        <p className="mt-4 text-center text-sm text-[#5B6B6F]">
+          Free cancellation ended 24 hours before pick-up. Please contact{" "}
+          {v.company.name} to make changes.
+        </p>
+      )}
 
       <div className="mt-6 flex flex-wrap justify-center gap-4">
         <Link
