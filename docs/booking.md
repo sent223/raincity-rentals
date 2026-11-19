@@ -24,3 +24,16 @@ re-reads the vehicle and recalculates the price before saving.
 - Booking requires an account, and a confirmation page is visible only to its owner
 - No payment step (Stripe is a stretch goal)
 - Cancellation is added with "My bookings" in Week 4
+
+## My bookings and cancellation
+- `/bookings` lists the signed-in user's bookings as Upcoming, In progress,
+  Completed or Cancelled. "Completed" is worked out from the return time.
+- Free cancellation is allowed until 24 hours before pick-up. The rule lives
+  in `lib/bookings.ts` and is enforced by the `cancelBooking` server action,
+  not just the page.
+- Cancelling shows a confirmation page first, then sets the status to
+  `CANCELLED`. Cancelled bookings are ignored by the availability check, so
+  the vehicle can be booked again immediately.
+- Only the owner can view or cancel a booking.
+- "Now" is the current time on a Seattle clock, matching how booking times
+  are stored.
