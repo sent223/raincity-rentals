@@ -73,3 +73,29 @@ export function formatDateTime(date: Date): string {
     timeZone: "UTC",
   }).format(date);
 }
+
+// The current time on a Seattle clock, in the same form booking times are stored.
+export function nowInSeattle(): Date {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Los_Angeles",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date());
+  const get = (type: string) =>
+    Number(parts.find((part) => part.type === type)?.value);
+  return new Date(
+    Date.UTC(
+      get("year"),
+      get("month") - 1,
+      get("day"),
+      get("hour"),
+      get("minute"),
+      get("second"),
+    ),
+  );
+}

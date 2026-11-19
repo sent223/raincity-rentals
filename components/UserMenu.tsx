@@ -27,6 +27,9 @@ export default async function UserMenu() {
 
   return (
     <>
+            <Link href="/bookings" className="hover:underline">
+        My bookings
+      </Link>
       <span>Hi, {firstName}</span>
       <form
         action={async () => {
