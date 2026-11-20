@@ -27,9 +27,14 @@ export default async function UserMenu() {
 
   return (
     <>
-            <Link href="/bookings" className="hover:underline">
+                {session.user.role === "COMPANY_ADMIN" && (
+        <Link href="/company/vehicles" className="hover:underline">
+          Dashboard
+        </Link>
+      )}
+      <Link href="/bookings" className="hover:underline">
         My bookings
-      </Link>
+      </Link>  
       <span>Hi, {firstName}</span>
       <form
         action={async () => {
