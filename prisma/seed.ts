@@ -1,4 +1,5 @@
 import "dotenv/config";
+import bcrypt from "bcryptjs";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient, Prisma } from "../generated/prisma/client";
 
@@ -205,6 +206,39 @@ async function main() {
         taxCents,
         feesCents: 0,
         totalCents: subtotalCents + taxCents,
+      },
+    });
+  }
+   // Demo company admin accounts (one per company)
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? "Admin-Demo-2026!";
+  const adminHash = await bcrypt.hash(adminPassword, 12);
+  const admins = [
+    {
+      name: "Emerald City Admin",
+      email: "admin@emeraldcitymotors.example",
+      companyId: emerald.id,
+    },
+    {
+      name: "Sound Drive Admin",
+      email: "admin@sounddrive.example",
+      companyId: sound.id,
+    },
+  ];
+  for (const admin of admins) {
+    await prisma.user.upsert({
+      where: { email: admin.email },
+      update: {
+        name: admin.name,
+        companyId: admin.companyId,
+        role: "COMPANY_ADMIN",
+        passwordHash: adminHash,
+      },
+      create: {
+        name: admin.name,
+        email: admin.email,
+        passwordHash: adminHash,
+        role: "COMPANY_ADMIN",
+        companyId: admin.companyId,
       },
     });
   }
