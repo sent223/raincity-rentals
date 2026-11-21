@@ -22,9 +22,9 @@ export default function CompanyHeader({
         <Link href="/company/vehicles" className={tab(active === "vehicles")}>
           Vehicles
         </Link>
-        <span className={`${tab(false)} cursor-not-allowed opacity-60`}>
-          Bookings (coming soon)
-        </span>
+        <Link href="/company/bookings" className={tab(active === "bookings")}>
+          Bookings
+        </Link>
       </nav>
     </div>
   );
