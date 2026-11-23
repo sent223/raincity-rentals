@@ -5,11 +5,14 @@ import UserMenu from "./UserMenu";
 export default function Navbar() {
   return (
     <header className="bg-[#1F4D3A] text-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
+      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-5">
         <Link href="/" className="text-xl font-bold">
           RainCity Rentals
         </Link>
-        <nav className="flex items-center gap-6 text-sm">
+        <nav
+          aria-label="Main"
+          className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm"
+        >
           <Link href="/vehicles" className="hover:underline">
             Browse
           </Link>
