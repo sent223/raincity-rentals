@@ -81,7 +81,7 @@ async function CompanyBookings({
             className="rounded-xl border border-[#C9D1CF] bg-white p-4 hover:border-[#2F6F8F]"
           >
             <p className="text-2xl font-bold text-[#1F4D3A]">{counts[index]}</p>
-            <p className="text-sm text-[#5B6B6F]">{STATUS_LABELS[status]}</p>
+            <p className="text-sm text-[#4B5B5F]">{STATUS_LABELS[status]}</p>
           </Link>
         ))}
       </div>
@@ -91,7 +91,7 @@ async function CompanyBookings({
         className="mt-6 rounded-xl border border-[#C9D1CF] bg-white p-5"
       >
         <div className="grid gap-4 sm:grid-cols-3">
-          <label className="block text-xs font-medium text-[#5B6B6F]">
+          <label className="block text-xs font-medium text-[#4B5B5F]">
             Status
             <select
               name="status"
@@ -106,7 +106,7 @@ async function CompanyBookings({
               ))}
             </select>
           </label>
-          <label className="block text-xs font-medium text-[#5B6B6F]">
+          <label className="block text-xs font-medium text-[#4B5B5F]">
             Pick-up from
             <input
               type="date"
@@ -115,7 +115,7 @@ async function CompanyBookings({
               className={fieldClass}
             />
           </label>
-          <label className="block text-xs font-medium text-[#5B6B6F]">
+          <label className="block text-xs font-medium text-[#4B5B5F]">
             Pick-up to
             <input
               type="date"
@@ -146,7 +146,7 @@ async function CompanyBookings({
         )}
       </Form>
 
-      <p className="mt-6 text-[#5B6B6F]">
+      <p className="mt-6 text-[#4B5B5F]">
         {total} {total === 1 ? "booking" : "bookings"}
         {hasFilters ? " match these filters" : ""}
         {total > LIMIT ? ` (showing the first ${LIMIT})` : ""}
@@ -172,7 +172,7 @@ async function CompanyBookings({
         <div className="mt-4 overflow-x-auto rounded-xl border border-[#C9D1CF] bg-white">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b border-[#C9D1CF] bg-[#F2F5F4] text-xs text-[#5B6B6F]">
+              <tr className="border-b border-[#C9D1CF] bg-[#F2F5F4] text-xs text-[#4B5B5F]">
                 <th className="px-4 py-3 font-medium">Reference</th>
                 <th className="px-4 py-3 font-medium">Renter</th>
                 <th className="px-4 py-3 font-medium">Vehicle</th>
@@ -190,19 +190,19 @@ async function CompanyBookings({
                   <td className="px-4 py-3 font-medium">{b.reference}</td>
                   <td className="px-4 py-3">
                     <p className="font-medium">{b.user.name}</p>
-                    <p className="text-xs text-[#5B6B6F]">{b.user.email}</p>
+                    <p className="text-xs text-[#4B5B5F]">{b.user.email}</p>
                   </td>
                   <td className="px-4 py-3">
                     <p className="font-medium">
                       {b.vehicle.year} {b.vehicle.make} {b.vehicle.model}
                     </p>
-                    <p className="text-xs text-[#5B6B6F]">
+                    <p className="text-xs text-[#4B5B5F]">
                       {b.pickupLocation.name}
                     </p>
                   </td>
                   <td className="px-4 py-3">
                     <p>{formatDateTime(b.startAt)}</p>
-                    <p className="text-xs text-[#5B6B6F]">
+                    <p className="text-xs text-[#4B5B5F]">
                       to {formatDateTime(b.endAt)}
                     </p>
                   </td>
@@ -219,7 +219,7 @@ async function CompanyBookings({
         </div>
       )}
 
-      <p className="mt-4 text-xs text-[#5B6B6F]">
+      <p className="mt-4 text-xs text-[#4B5B5F]">
         Renter contact details are shown so you can arrange pick-up. Please use
         them only for that purpose.
       </p>
@@ -237,7 +237,7 @@ export default function CompanyBookingsPage({
       <Navbar />
       <div className="mx-auto max-w-6xl px-8 py-8">
         <Suspense
-          fallback={<p className="text-[#5B6B6F]">Loading your bookings...</p>}
+          fallback={<p className="text-[#4B5B5F]">Loading your bookings...</p>}
         >
           <CompanyBookings searchParams={searchParams} />
         </Suspense>

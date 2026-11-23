@@ -76,7 +76,7 @@ async function EditVehicle({ params, searchParams }: PageProps) {
         submitLabel="Save changes"
         pendingText="Saving..."
       />
-      <p className="mt-4 text-xs text-[#5B6B6F]">
+      <p className="mt-4 text-xs text-[#4B5B5F]">
         Changing the daily rate doesn&apos;t affect existing bookings, which keep
         the price the renter agreed to.
       </p>
@@ -89,7 +89,7 @@ export default function EditVehiclePage({ params, searchParams }: PageProps) {
     <main className="min-h-screen bg-[#F2F5F4] text-[#1E2A2E]">
       <Navbar />
       <div className="mx-auto max-w-3xl px-8 py-8">
-        <Suspense fallback={<p className="text-[#5B6B6F]">Loading...</p>}>
+        <Suspense fallback={<p className="text-[#4B5B5F]">Loading...</p>}>
           <EditVehicle params={params} searchParams={searchParams} />
         </Suspense>
       </div>

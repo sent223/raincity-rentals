@@ -44,7 +44,7 @@ function BookingRow({ booking: b, status, cancel }: Row) {
           <h3 className="text-lg font-bold">
             {v.year} {v.make} {v.model}
           </h3>
-          <p className="text-sm text-[#5B6B6F]">
+          <p className="text-sm text-[#4B5B5F]">
             {v.company.name} · Ref {b.reference}
           </p>
         </div>
@@ -52,22 +52,22 @@ function BookingRow({ booking: b, status, cancel }: Row) {
       </div>
       <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-3">
         <div>
-          <dt className="text-[#5B6B6F]">Pick-up</dt>
+          <dt className="text-[#4B5B5F]">Pick-up</dt>
           <dd className="font-medium">{formatDateTime(b.startAt)}</dd>
         </div>
         <div>
-          <dt className="text-[#5B6B6F]">Return</dt>
+          <dt className="text-[#4B5B5F]">Return</dt>
           <dd className="font-medium">{formatDateTime(b.endAt)}</dd>
         </div>
         <div>
-          <dt className="text-[#5B6B6F]">Location</dt>
+          <dt className="text-[#4B5B5F]">Location</dt>
           <dd className="font-medium">{b.pickupLocation.name}</dd>
         </div>
       </dl>
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <p className="font-bold text-[#1F4D3A]">
           {formatMoney(b.totalCents)}{" "}
-          <span className="text-sm font-normal text-[#5B6B6F]">
+          <span className="text-sm font-normal text-[#4B5B5F]">
             total, {days} {days === 1 ? "day" : "days"}
           </span>
         </p>
@@ -89,7 +89,7 @@ function BookingRow({ booking: b, status, cancel }: Row) {
         </div>
       </div>
       {cancel === "too-late" && (
-        <p className="mt-2 text-xs text-[#5B6B6F]">
+        <p className="mt-2 text-xs text-[#4B5B5F]">
           Free cancellation ended 24 hours before pick-up. Please contact{" "}
           {v.company.name} to make changes.
         </p>
@@ -164,7 +164,7 @@ async function BookingsList({
           <section>
             <h2 className="mb-3 text-xl font-bold">Upcoming</h2>
             {upcoming.length === 0 ? (
-              <p className="text-[#5B6B6F]">No upcoming trips.</p>
+              <p className="text-[#4B5B5F]">No upcoming trips.</p>
             ) : (
               <div className="space-y-4">
                 {upcoming.map((row) => (
@@ -200,7 +200,7 @@ export default function MyBookingsPage({
       <div className="mx-auto max-w-4xl px-8 py-8">
         <h1 className="mb-6 text-3xl font-bold text-[#1F4D3A]">My bookings</h1>
         <Suspense
-          fallback={<p className="text-[#5B6B6F]">Loading your bookings...</p>}
+          fallback={<p className="text-[#4B5B5F]">Loading your bookings...</p>}
         >
           <BookingsList searchParams={searchParams} />
         </Suspense>

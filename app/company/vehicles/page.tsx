@@ -55,7 +55,7 @@ async function VehicleTable({
       )}
 
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-[#5B6B6F]">
+        <p className="text-[#4B5B5F]">
           {vehicles.length} {vehicles.length === 1 ? "vehicle" : "vehicles"}
         </p>
         <Link
@@ -74,7 +74,7 @@ async function VehicleTable({
         <div className="overflow-x-auto rounded-xl border border-[#C9D1CF] bg-white">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b border-[#C9D1CF] bg-[#F2F5F4] text-xs text-[#5B6B6F]">
+              <tr className="border-b border-[#C9D1CF] bg-[#F2F5F4] text-xs text-[#4B5B5F]">
                 <th className="px-4 py-3 font-medium">Vehicle</th>
                 <th className="px-4 py-3 font-medium">Pickup</th>
                 <th className="px-4 py-3 font-medium">Rate</th>
@@ -91,7 +91,7 @@ async function VehicleTable({
                     <p className="font-bold">
                       {v.year} {v.make} {v.model}
                     </p>
-                    <p className="text-xs text-[#5B6B6F]">
+                    <p className="text-xs text-[#4B5B5F]">
                       {typeLabel(v.type)} · {v.seats} seats ·{" "}
                       {titleCase(v.transmission)} · {titleCase(v.fuelType)}
                       {v.hasAwd ? " · AWD" : ""}
@@ -107,7 +107,7 @@ async function VehicleTable({
                       className={`rounded-full px-3 py-1 text-xs font-bold ${
                         v.isActive
                           ? "bg-[#DCE7E2] text-[#1F4D3A]"
-                          : "bg-[#E5E9E8] text-[#5B6B6F]"
+                          : "bg-[#E5E9E8] text-[#4B5B5F]"
                       }`}
                     >
                       {v.isActive ? "Visible" : "Hidden"}
@@ -130,7 +130,7 @@ async function VehicleTable({
                         />
                         <button
                           type="submit"
-                          className="font-medium text-[#5B6B6F] underline"
+                          className="font-medium text-[#4B5B5F] underline"
                         >
                           {v.isActive ? "Hide" : "Show"}
                         </button>
@@ -157,7 +157,7 @@ export default function CompanyVehiclesPage({
       <Navbar />
       <div className="mx-auto max-w-6xl px-8 py-8">
         <Suspense
-          fallback={<p className="text-[#5B6B6F]">Loading your vehicles...</p>}
+          fallback={<p className="text-[#4B5B5F]">Loading your vehicles...</p>}
         >
           <VehicleTable searchParams={searchParams} />
         </Suspense>

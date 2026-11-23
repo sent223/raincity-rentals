@@ -88,14 +88,14 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
       </Link>
       <div className="mt-4 grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <div className="flex h-72 items-center justify-center rounded-xl bg-[#E5E9E8] text-[#5B6B6F]">
+          <div className="flex h-72 items-center justify-center rounded-xl bg-[#E5E9E8] text-[#4B5B5F]">
             Photo coming soon
           </div>
 
           <h1 className="mt-6 text-3xl font-bold">
             {v.year} {v.make} {v.model}
           </h1>
-          <p className="text-[#5B6B6F]">by {v.company.name}</p>
+          <p className="text-[#4B5B5F]">by {v.company.name}</p>
 
           <ul className="mt-4 flex flex-wrap gap-2">
             {features.map((feature) => (
@@ -110,7 +110,7 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
 
           <section className="mt-8">
             <h2 className="text-xl font-bold">About this vehicle</h2>
-            <p className="mt-2 text-[#5B6B6F]">
+            <p className="mt-2 text-[#4B5B5F]">
               {v.year} {v.make} {v.model}, offered by {v.company.name}.{" "}
               {v.company.description}
             </p>
@@ -120,7 +120,7 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
                   key={label}
                   className="rounded-lg border border-[#C9D1CF] bg-white p-3"
                 >
-                  <dt className="text-xs text-[#5B6B6F]">{label}</dt>
+                  <dt className="text-xs text-[#4B5B5F]">{label}</dt>
                   <dd className="font-medium">{value}</dd>
                 </div>
               ))}
@@ -133,7 +133,7 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
               {v.location.name}
               {v.location.isAirport ? " (airport)" : ""}
             </p>
-            <p className="text-[#5B6B6F]">
+            <p className="text-[#4B5B5F]">
               {v.location.address}, {v.location.city}, {v.location.state}{" "}
               {v.location.zip}
             </p>
@@ -146,11 +146,11 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
         <aside className="self-start rounded-xl border border-[#C9D1CF] bg-white p-6 lg:sticky lg:top-6">
           <p className="text-3xl font-bold text-[#1F4D3A]">
             {formatCents(v.dailyRateCents)}
-            <span className="text-base font-normal text-[#5B6B6F]"> / day</span>
+            <span className="text-base font-normal text-[#4B5B5F]"> / day</span>
           </p>
 
           <Form action={`/vehicles/${v.id}`} className="mt-4 space-y-3">
-            <label className="block text-xs font-medium text-[#5B6B6F]">
+            <label className="block text-xs font-medium text-[#4B5B5F]">
               Pick-up (Seattle time)
               <input
                 type="datetime-local"
@@ -160,7 +160,7 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
                 className={inputClass}
               />
             </label>
-            <label className="block text-xs font-medium text-[#5B6B6F]">
+            <label className="block text-xs font-medium text-[#4B5B5F]">
               Return (Seattle time)
               <input
                 type="datetime-local"
@@ -187,7 +187,7 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
             </p>
           )}
           {range.kind === "none" && (
-            <p className="mt-4 text-sm text-[#5B6B6F]">
+            <p className="mt-4 text-sm text-[#4B5B5F]">
               Choose your dates to check availability and see the full price.
             </p>
           )}
@@ -235,7 +235,7 @@ async function VehicleDetail({ params, searchParams }: PageProps) {
               Book now
             </button>
           )}
-          <p className="mt-3 text-center text-xs text-[#5B6B6F]">
+          <p className="mt-3 text-center text-xs text-[#4B5B5F]">
             Free cancellation until 24 hours before pick-up.
           </p>
         </aside>
@@ -250,7 +250,7 @@ export default function VehicleDetailPage({ params, searchParams }: PageProps) {
       <Navbar />
       <div className="mx-auto max-w-7xl px-8 py-8">
         <Suspense
-          fallback={<p className="text-[#5B6B6F]">Loading vehicle...</p>}
+          fallback={<p className="text-[#4B5B5F]">Loading vehicle...</p>}
         >
           <VehicleDetail params={params} searchParams={searchParams} />
         </Suspense>

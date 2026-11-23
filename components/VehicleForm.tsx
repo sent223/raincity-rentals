@@ -4,7 +4,7 @@ import { FUEL_TYPES, TRANSMISSIONS, VEHICLE_TYPES } from "../lib/filters";
 import { titleCase, typeLabel } from "../lib/format";
 import type { VehicleFormValues } from "../lib/vehicle-form";
 
-const labelClass = "block text-xs font-medium text-[#5B6B6F]";
+const labelClass = "block text-xs font-medium text-[#4B5B5F]";
 const fieldClass =
   "mt-1 w-full rounded-lg border border-[#C9D1CF] bg-white px-3 py-2 text-sm text-[#1E2A2E]";
 

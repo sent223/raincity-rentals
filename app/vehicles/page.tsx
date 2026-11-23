@@ -3,6 +3,7 @@ import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import VehicleCard from "../../components/VehicleCard";
 import VehicleFilters from "../../components/VehicleFilters";
+import VehicleListSkeleton from "../../components/VehicleListSkeleton";
 import { formatDateTime, rentalDays } from "../../lib/dates";
 import { buildWhere, parseFilters, type SearchParams } from "../../lib/filters";
 import { prisma } from "../../lib/prisma";
@@ -53,7 +54,7 @@ async function VehiclesContent({ searchParams }: PageProps) {
         </p>
       )}
       <VehicleFilters filters={filters} />
-      <p className="mt-6 text-[#5B6B6F]">
+      <p className="mt-6 text-[#4B5B5F]">
         {vehicles.length} {vehicles.length === 1 ? "vehicle" : "vehicles"}{" "}
         available
       </p>
@@ -96,7 +97,7 @@ export default function VehiclesPage({ searchParams }: PageProps) {
           Available vehicles
         </h1>
         <Suspense
-          fallback={<p className="text-[#5B6B6F]">Loading vehicles...</p>}
+          fallback={<VehicleListSkeleton />}
         >
           <VehiclesContent searchParams={searchParams} />
         </Suspense>

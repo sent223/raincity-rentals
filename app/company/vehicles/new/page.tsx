@@ -68,7 +68,7 @@ export default function NewVehiclePage({
     <main className="min-h-screen bg-[#F2F5F4] text-[#1E2A2E]">
       <Navbar />
       <div className="mx-auto max-w-3xl px-8 py-8">
-        <Suspense fallback={<p className="text-[#5B6B6F]">Loading...</p>}>
+        <Suspense fallback={<p className="text-[#4B5B5F]">Loading...</p>}>
           <NewVehicle searchParams={searchParams} />
         </Suspense>
       </div>

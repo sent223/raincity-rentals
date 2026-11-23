@@ -33,7 +33,7 @@ async function CancelBooking({ params }: PageProps) {
     return (
       <div className="rounded-xl border border-[#C9D1CF] bg-white p-8 text-center">
         <p className="font-bold">This booking can&apos;t be cancelled online.</p>
-        <p className="mt-2 text-sm text-[#5B6B6F]">
+        <p className="mt-2 text-sm text-[#4B5B5F]">
           {state === "too-late"
             ? `Free cancellation ended 24 hours before pick-up. Please contact ${v.company.name} to make changes.`
             : "It may already be cancelled, or the trip has started or finished."}
@@ -56,24 +56,24 @@ async function CancelBooking({ params }: PageProps) {
       <p className="mt-4 text-lg font-bold">
         {v.year} {v.make} {v.model}
       </p>
-      <p className="text-sm text-[#5B6B6F]">
+      <p className="text-sm text-[#4B5B5F]">
         {v.company.name} · Ref {booking.reference}
       </p>
       <dl className="mt-4 space-y-2 text-sm">
         <div>
-          <dt className="text-[#5B6B6F]">Pick-up</dt>
+          <dt className="text-[#4B5B5F]">Pick-up</dt>
           <dd className="font-medium">
             {formatDateTime(booking.startAt)}, {booking.pickupLocation.name}
           </dd>
         </div>
         <div>
-          <dt className="text-[#5B6B6F]">Return</dt>
+          <dt className="text-[#4B5B5F]">Return</dt>
           <dd className="font-medium">
             {formatDateTime(booking.endAt)} ({days} {days === 1 ? "day" : "days"})
           </dd>
         </div>
         <div>
-          <dt className="text-[#5B6B6F]">Total</dt>
+          <dt className="text-[#4B5B5F]">Total</dt>
           <dd className="font-medium">{formatMoney(booking.totalCents)}</dd>
         </div>
       </dl>
@@ -103,7 +103,7 @@ export default function CancelBookingPage({ params }: PageProps) {
       <Navbar />
       <div className="mx-auto max-w-7xl px-8 py-8">
         <Suspense
-          fallback={<p className="text-[#5B6B6F]">Loading your booking...</p>}
+          fallback={<p className="text-[#4B5B5F]">Loading your booking...</p>}
         >
           <CancelBooking params={params} />
         </Suspense>

@@ -29,7 +29,7 @@ async function LocationsContent() {
 
   return (
     <>
-      <p className="mb-6 text-[#5B6B6F]">
+      <p className="mb-6 text-[#4B5B5F]">
         {locations.length} pickup locations across Seattle and the Eastside.
         Select one to see it on the map.
       </p>
@@ -47,7 +47,7 @@ export default function LocationsPage() {
           Pickup locations
         </h1>
         <Suspense
-          fallback={<p className="text-[#5B6B6F]">Loading locations...</p>}
+          fallback={<p className="text-[#4B5B5F]">Loading locations...</p>}
         >
           <LocationsContent />
         </Suspense>
