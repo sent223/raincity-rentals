@@ -35,7 +35,7 @@ export default function PriceSummary({
       <dl className="space-y-2">
         {rows.map(([label, amount]) => (
           <div key={label} className="flex justify-between gap-4">
-            <dt className="text-[#5B6B6F]">{label}</dt>
+            <dt className="text-[#4B5B5F]">{label}</dt>
             <dd>{amount}</dd>
           </div>
         ))}
@@ -44,7 +44,7 @@ export default function PriceSummary({
         <span>Estimated total</span>
         <span className="text-[#1F4D3A]">{formatMoney(b.totalCents)}</span>
       </div>
-      <p className="mt-3 text-xs text-[#5B6B6F]">
+      <p className="mt-3 text-xs text-[#4B5B5F]">
         Includes taxes and fees. Rates are estimates and may change.
       </p>
     </div>

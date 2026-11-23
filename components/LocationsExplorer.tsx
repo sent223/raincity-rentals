@@ -33,7 +33,7 @@ export default function LocationsExplorer({
   const [status, setStatus] = useState<Status>({ kind: "idle" });
 
   if (locations.length === 0) {
-    return <p className="text-[#5B6B6F]">No pickup locations yet.</p>;
+    return <p className="text-[#4B5B5F]">No pickup locations yet.</p>;
   }
 
   const withDistance = locations.map((loc) => ({
@@ -146,10 +146,10 @@ export default function LocationsExplorer({
                     )}
                   </span>
                 </span>
-                <span className="mt-1 block text-sm text-[#5B6B6F]">
+                <span className="mt-1 block text-sm text-[#4B5B5F]">
                   {loc.companyName}
                 </span>
-                <span className="block text-sm text-[#5B6B6F]">
+                <span className="block text-sm text-[#4B5B5F]">
                   {loc.address}, {loc.city}, {loc.state} {loc.zip}
                 </span>
                 {miles !== null && (

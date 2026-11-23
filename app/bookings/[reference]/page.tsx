@@ -71,7 +71,7 @@ async function BookingDetails({ params }: PageProps) {
         >
           {headline}
         </h1>
-        <p className="mt-2 text-sm text-[#5B6B6F]">Your booking reference</p>
+        <p className="mt-2 text-sm text-[#4B5B5F]">Your booking reference</p>
         <p className="text-2xl font-bold tracking-wider">{booking.reference}</p>
         <div className="mt-3">
           <StatusBadge status={status} />
@@ -82,20 +82,20 @@ async function BookingDetails({ params }: PageProps) {
         <h2 className="text-xl font-bold">
           {v.year} {v.make} {v.model}
         </h2>
-        <p className="text-sm text-[#5B6B6F]">{v.company.name}</p>
+        <p className="text-sm text-[#4B5B5F]">{v.company.name}</p>
         <dl className="mt-4 space-y-2 text-sm">
           <div>
-            <dt className="text-[#5B6B6F]">Pick-up and return location</dt>
+            <dt className="text-[#4B5B5F]">Pick-up and return location</dt>
             <dd className="font-medium">
               {loc.name}, {loc.address}, {loc.city}, {loc.state} {loc.zip}
             </dd>
           </div>
           <div>
-            <dt className="text-[#5B6B6F]">Pick-up</dt>
+            <dt className="text-[#4B5B5F]">Pick-up</dt>
             <dd className="font-medium">{formatDateTime(booking.startAt)}</dd>
           </div>
           <div>
-            <dt className="text-[#5B6B6F]">Return</dt>
+            <dt className="text-[#4B5B5F]">Return</dt>
             <dd className="font-medium">{formatDateTime(booking.endAt)}</dd>
           </div>
         </dl>
@@ -104,7 +104,7 @@ async function BookingDetails({ params }: PageProps) {
           <dl className="space-y-2">
             {rows.map(([label, amount]) => (
               <div key={label} className="flex justify-between gap-4">
-                <dt className="text-[#5B6B6F]">{label}</dt>
+                <dt className="text-[#4B5B5F]">{label}</dt>
                 <dd>{amount}</dd>
               </div>
             ))}
@@ -126,11 +126,11 @@ async function BookingDetails({ params }: PageProps) {
           >
             Cancel this booking
           </Link>{" "}
-          <span className="text-[#5B6B6F]">(free until 24 hours before pick-up)</span>
+          <span className="text-[#4B5B5F]">(free until 24 hours before pick-up)</span>
         </p>
       )}
       {cancel === "too-late" && (
-        <p className="mt-4 text-center text-sm text-[#5B6B6F]">
+        <p className="mt-4 text-center text-sm text-[#4B5B5F]">
           Free cancellation ended 24 hours before pick-up. Please contact{" "}
           {v.company.name} to make changes.
         </p>
@@ -160,7 +160,7 @@ export default function BookingPage({ params }: PageProps) {
       <Navbar />
       <div className="mx-auto max-w-7xl px-8 py-8">
         <Suspense
-          fallback={<p className="text-[#5B6B6F]">Loading your booking...</p>}
+          fallback={<p className="text-[#4B5B5F]">Loading your booking...</p>}
         >
           <BookingDetails params={params} />
         </Suspense>

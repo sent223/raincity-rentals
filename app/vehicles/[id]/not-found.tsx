@@ -7,7 +7,7 @@ export default function NotFound() {
       <Navbar />
       <div className="mx-auto max-w-xl px-8 py-16 text-center">
         <h1 className="text-3xl font-bold text-[#1F4D3A]">Vehicle not found</h1>
-        <p className="mt-3 text-[#5B6B6F]">
+        <p className="mt-3 text-[#4B5B5F]">
           This vehicle doesn&apos;t exist or is no longer available.
         </p>
         <Link

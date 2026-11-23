@@ -36,15 +36,15 @@ export default function VehicleCard({
 
   return (
     <article className="flex flex-col overflow-hidden rounded-xl border border-[#C9D1CF] bg-white">
-      <div className="flex h-44 items-center justify-center bg-[#E5E9E8] text-sm text-[#5B6B6F]">
+      <div className="flex h-44 items-center justify-center bg-[#E5E9E8] text-sm text-[#4B5B5F]">
         Photo coming soon
       </div>
       <div className="flex flex-1 flex-col p-5">
         <h2 className="text-xl font-bold">
           {v.year} {v.make} {v.model}
         </h2>
-        <p className="text-sm text-[#5B6B6F]">{v.company.name}</p>
-        <p className="mt-1 text-sm text-[#5B6B6F]">Pickup: {v.location.name}</p>
+        <p className="text-sm text-[#4B5B5F]">{v.company.name}</p>
+        <p className="mt-1 text-sm text-[#4B5B5F]">Pickup: {v.location.name}</p>
         <ul className="mt-3 flex flex-wrap gap-2">
           {features.map((feature) => (
             <li
@@ -59,10 +59,10 @@ export default function VehicleCard({
           <div>
             <span className="text-2xl font-bold text-[#1F4D3A]">
               {formatCents(v.dailyRateCents)}
-              <span className="text-sm font-normal text-[#5B6B6F]"> / day</span>
+              <span className="text-sm font-normal text-[#4B5B5F]"> / day</span>
             </span>
             {price && days ? (
-              <span className="block text-xs text-[#5B6B6F]">
+              <span className="block text-xs text-[#4B5B5F]">
                 {formatMoney(price.totalCents)} total for {days}{" "}
                 {days === 1 ? "day" : "days"}, with taxes and fees
               </span>

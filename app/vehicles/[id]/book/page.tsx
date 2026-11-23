@@ -56,7 +56,7 @@ async function BookingReview({ params, searchParams }: PageProps) {
     return (
       <div className="rounded-xl border border-[#C9D1CF] bg-white p-8 text-center">
         <p className="font-bold">Choose your dates first.</p>
-        <p className="mt-1 text-sm text-[#5B6B6F]">
+        <p className="mt-1 text-sm text-[#4B5B5F]">
           {range.kind === "error" ? range.message : "No dates were selected."}
         </p>
         <Link
@@ -95,10 +95,10 @@ async function BookingReview({ params, searchParams }: PageProps) {
           <p className="mt-3 text-lg font-bold">
             {vehicle.year} {vehicle.make} {vehicle.model}
           </p>
-          <p className="text-sm text-[#5B6B6F]">{vehicle.company.name}</p>
+          <p className="text-sm text-[#4B5B5F]">{vehicle.company.name}</p>
           <dl className="mt-4 space-y-2 text-sm">
             <div>
-              <dt className="text-[#5B6B6F]">Pick-up and return location</dt>
+              <dt className="text-[#4B5B5F]">Pick-up and return location</dt>
               <dd className="font-medium">
                 {vehicle.location.name}, {vehicle.location.address},{" "}
                 {vehicle.location.city}, {vehicle.location.state}{" "}
@@ -106,11 +106,11 @@ async function BookingReview({ params, searchParams }: PageProps) {
               </dd>
             </div>
             <div>
-              <dt className="text-[#5B6B6F]">Pick-up</dt>
+              <dt className="text-[#4B5B5F]">Pick-up</dt>
               <dd className="font-medium">{formatDateTime(range.start)}</dd>
             </div>
             <div>
-              <dt className="text-[#5B6B6F]">Return</dt>
+              <dt className="text-[#4B5B5F]">Return</dt>
               <dd className="font-medium">
                 {formatDateTime(range.end)} ({days} {days === 1 ? "day" : "days"})
               </dd>
@@ -126,7 +126,7 @@ async function BookingReview({ params, searchParams }: PageProps) {
             <input type="hidden" name="vehicleId" value={vehicle.id} />
             <input type="hidden" name="start" value={range.startInput} />
             <input type="hidden" name="end" value={range.endInput} />
-            <p className="text-sm text-[#5B6B6F]">
+            <p className="text-sm text-[#4B5B5F]">
               Booking as <strong>{user.name}</strong> ({user.email})
             </p>
             <label className="mt-4 flex items-start gap-2 text-sm">
@@ -174,7 +174,7 @@ export default function BookPage({ params, searchParams }: PageProps) {
           Review and confirm
         </h1>
         <Suspense
-          fallback={<p className="text-[#5B6B6F]">Loading your booking...</p>}
+          fallback={<p className="text-[#4B5B5F]">Loading your booking...</p>}
         >
           <BookingReview params={params} searchParams={searchParams} />
         </Suspense>

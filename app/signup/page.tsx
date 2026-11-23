@@ -43,7 +43,7 @@ async function SignupForm({ searchParams }: { searchParams: Promise<SearchParams
       )}
       <form action={registerUser} className="mt-6 space-y-4">
         <input type="hidden" name="next" value={next} />
-        <label className="block text-xs font-medium text-[#5B6B6F]">
+        <label className="block text-xs font-medium text-[#4B5B5F]">
           Full name
           <input
             type="text"
@@ -55,7 +55,7 @@ async function SignupForm({ searchParams }: { searchParams: Promise<SearchParams
             className={inputClass}
           />
         </label>
-        <label className="block text-xs font-medium text-[#5B6B6F]">
+        <label className="block text-xs font-medium text-[#4B5B5F]">
           Email
           <input
             type="email"
@@ -65,7 +65,7 @@ async function SignupForm({ searchParams }: { searchParams: Promise<SearchParams
             className={inputClass}
           />
         </label>
-        <label className="block text-xs font-medium text-[#5B6B6F]">
+        <label className="block text-xs font-medium text-[#4B5B5F]">
           Password (at least 8 characters)
           <input
             type="password"
@@ -77,7 +77,7 @@ async function SignupForm({ searchParams }: { searchParams: Promise<SearchParams
             className={inputClass}
           />
         </label>
-        <label className="block text-xs font-medium text-[#5B6B6F]">
+        <label className="block text-xs font-medium text-[#4B5B5F]">
           Confirm password
           <input
             type="password"
@@ -93,7 +93,7 @@ async function SignupForm({ searchParams }: { searchParams: Promise<SearchParams
           Create account
         </SubmitButton>
       </form>
-      <p className="mt-6 text-center text-sm text-[#5B6B6F]">
+      <p className="mt-6 text-center text-sm text-[#4B5B5F]">
         Already have an account?{" "}
         <Link href={loginHref} className="text-[#2F6F8F] underline">
           Log in
@@ -112,7 +112,7 @@ export default function SignupPage({
     <main className="min-h-screen bg-[#F2F5F4] text-[#1E2A2E]">
       <Navbar />
       <div className="mx-auto max-w-7xl px-8 py-12">
-        <Suspense fallback={<p className="text-center text-[#5B6B6F]">Loading...</p>}>
+        <Suspense fallback={<p className="text-center text-[#4B5B5F]">Loading...</p>}>
           <SignupForm searchParams={searchParams} />
         </Suspense>
       </div>
